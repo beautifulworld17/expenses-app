@@ -24,13 +24,22 @@ class _ExpensesState extends State<Expenses> {
         category: Category.food)
   ];
 
+  void addExpense(newExpense) {
+    setState(() {
+      _expenseList.add(newExpense);
+    });
+  }
+
   void _openModalSheet() {
     showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         builder: (ctx) {
-          return NewExpenseForm();
+          return NewExpenseForm(addExpense: addExpense, );
         });
   }
+
+
 
   @override
   Widget build(BuildContext context) {

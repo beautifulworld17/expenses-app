@@ -52,6 +52,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openModalSheet() {
     showModalBottomSheet(
+        useSafeArea: true,
         context: context,
         isScrollControlled: true,
         builder: (ctx) {
@@ -61,6 +62,7 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     Widget mainContent = const Center(
       child: Text("No expense to show...Try adding a new one"),
     );
@@ -77,16 +79,29 @@ class _ExpensesState extends State<Expenses> {
         ],
         title: const Text("Flutter ExpenseTracker"),
       ),
-      body: Column(
-        children: [
-          Chart(
-            expenses: _expenseList,
-          ),
-          Expanded(
-            child: mainContent,
-          )
-        ],
-      ),
+      body: width < 600
+          ? Column(
+              children: [
+                Chart(
+                  expenses: _expenseList,
+                ),
+                Expanded(
+                  child: mainContent,
+                )
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Chart(
+                    expenses: _expenseList,
+                  ),
+                ),
+                Expanded(
+                  child: mainContent,
+                )
+              ],
+            ),
     );
   }
 }
